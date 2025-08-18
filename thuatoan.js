@@ -3,11 +3,10 @@
  * Phiên bản "Bắt Cầu Thông Minh".
  * Ưu tiên 1: Bắt cầu bệt (3+ phiên giống nhau).
  * Ưu tiên 2: Bắt cầu 1-1 (xen kẽ).
- * Mặc định: DỰ ĐOÁN NGẪU NHIÊN.
+ * Mặc định: NGẪU NHIÊN chọn giữa Đảo Ngược hoặc Đi Theo kết quả trước.
  */
 
 // --- CÁC HÀM PHÂN TÍCH (Không được sử dụng trong phiên bản này) ---
-// Giữ lại các hàm này nếu bạn muốn quay lại thuật toán cũ sau này.
 function analyzeStreak(history) {
     if (history.length === 0) return { streak: 0, currentResult: null, breakProb: 0.0 };
     let streak = 1;
@@ -107,11 +106,21 @@ class MasterPredictor {
             return { prediction, confidence, reason };
         }
 
-        // --- MẶC ĐỊNH MỚI: DỰ ĐOÁN NGẪU NHIÊN ---
-        // Nếu không có cầu bệt hay cầu 1-1 rõ ràng, sẽ dự đoán ngẫu nhiên.
-        const prediction = Math.random() < 0.5 ? 'Tài' : 'Xỉu';
-        const confidence = 0.50; // 50% vì là ngẫu nhiên
-        const reason = `Không có cầu rõ ràng, dự đoán ngẫu nhiên.`;
+        // --- MẶC ĐỊNH MỚI: RANDOM ĐẢO NGƯỢC / THEO SAU ---
+        // Nếu không có cầu rõ ràng, sẽ ngẫu nhiên (50/50) chọn 1 trong 2 chiến lược.
+        let prediction;
+        let reason;
+        const confidence = 0.60; // Độ tin cậy trung bình cho chiến lược ngẫu nhiên
+
+        if (Math.random() < 0.5) {
+            // 50% cơ hội: Đảo ngược kết quả
+            prediction = last === 'Tài' ? 'Xỉu' : 'Tài';
+            reason = `Không có cầu rõ ràng, ngẫu nhiên chọn Đảo Ngược (${last} -> ${prediction}).`;
+        } else {
+            // 50% cơ hội còn lại: Đi theo kết quả gần nhất
+            prediction = last;
+            reason = `Không có cầu rõ ràng, ngẫu nhiên chọn Đi Theo (${last} -> ${prediction}).`;
+        }
         
         return { prediction, confidence, reason };
     }
