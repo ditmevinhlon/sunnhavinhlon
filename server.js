@@ -16,7 +16,7 @@ let apiResponseData = {
     Xuc_xac_3: null,
     Tong: null,
     Ket_qua: "",
-    id: '@vinhmaycayuytins1'
+    id: '@vinh cái lồn'
 };
 
 let currentSessionId = null;
@@ -112,14 +112,14 @@ function connectWebSocket() {
 }
 
 // Endpoint API để lấy dữ liệu
-app.get('/vinhmaycay', (req, res) => {
+app.get('/mohobomaycai', (req, res) => {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.send(JSON.stringify(apiResponseData, null, 4));
 });
 
 // Endpoint gốc
 app.get('/', (req, res) => {
-    res.send(`<h2>🎯 API Lấy Dữ Liệu Sunwin Tài Xỉu</h2><p>Xem kết quả JSON: <a href="/vinhmaycay">/vinhmaycay</a></p>`);
+    res.send("MÒ HỘ BỐ MÀY NÈ CON ƠI 😂😂😂");
 });
 
 app.listen(PORT, () => {
